@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pagos</title>
+</head>
+<body>
+
+<h1>Lista de Pagos</h1>
+
+<a href="/">Volver</a>
+
+<table border="1">
+    <tr>
+        <th>Alumno</th>
+        <th>Mes</th>
+        <th>Monto</th>
+    </tr>
+
+    <!-- Recorremos todos los pagos -->
+    {% for pago in pagos %}
+    <tr>
+        <!-- Mostramos nombre del alumno -->
+        <td>{{ pago.nombre }}</td>
+
+        <!-- Mostramos el mes -->
+        <td>{{ pago.mes }}</td>
+
+        <!-- Mostramos el monto -->
+        <td>{{ pago.monto }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+</body>
+</html>

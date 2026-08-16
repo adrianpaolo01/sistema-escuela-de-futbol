@@ -1,0 +1,45 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Editar Alumno</h1>
+
+<div class="card card-registro" style="max-width: 560px; margin: auto;">
+    <form action="{{ url_for('alumnos.actualizar_alumno', id=alumno.id) }}" method="POST" class="form-registro">
+        <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" value="{{ alumno.nombre }}" required>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group form-group-half">
+                <label for="edad">Edad</label>
+                <input type="number" id="edad" name="edad" value="{{ alumno.edad }}" required>
+            </div>
+
+            <div class="form-group form-group-half">
+                <label for="telefono">Teléfono</label>
+                <input type="text" id="telefono" name="telefono" value="{{ alumno.telefono }}" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="fecha_inscripcion">Fecha de inscripción</label>
+            <input type="date" id="fecha_inscripcion" name="fecha_inscripcion" value="{{ alumno.fecha_inscripcion.strftime('%Y-%m-%d') if alumno.fecha_inscripcion else '' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="categoria">Categoría</label>
+            <select id="categoria" name="categoria" required>
+                <option value="">Selecciona una categoría</option>
+                {% for cat in categorias %}
+                <option value="{{ cat.nombre }}" {% if alumno.categoria == cat.nombre %}selected{% endif %}>{{ cat.nombre }} · {{ cat.rango }} · {{ cat.horario }} · {{ cat.dias }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full">Guardar Cambios</button>
+    </form>
+</div>
+
+{% endblock %}

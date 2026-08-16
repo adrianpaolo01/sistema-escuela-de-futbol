@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+    <h1 style="margin:0">Control de cuentas - {{ mes }}</h1>
+    <div>
+        <a href="{{ url_for('control.control_cuentas_export_csv') }}" class="btn" style="margin-right:8px">Exportar CSV</a>
+        <a href="{{ url_for('control.cron_generar_pagos_mes') }}" class="btn">Generar pagos mes</a>
+    </div>
+</div>
+
+<div class="card">
+    <table style="width:100%; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th style="text-align:left; padding:8px">Alumno</th>
+                <th style="text-align:right; padding:8px">Pagado este mes</th>
+                <th style="text-align:right; padding:8px">Total acumulado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in lista %}
+            <tr>
+                <td style="padding:8px">{{ row.nombre }}</td>
+                <td style="padding:8px; text-align:right">{{ '%.2f'|format(row.mes) }} bs</td>
+                <td style="padding:8px; text-align:right">{{ '%.2f'|format(row.total) }} bs</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td style="padding:8px; font-weight:bold">Totales</td>
+                <td style="padding:8px; text-align:right; font-weight:bold">{{ '%.2f'|format(total_mes) }} bs</td>
+                <td style="padding:8px; text-align:right; font-weight:bold">{{ '%.2f'|format(total_general) }} bs</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+{% endblock %}

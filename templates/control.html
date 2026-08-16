@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Control Mensual</title>
+</head>
+<body>
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Control Mensual</h1>
+
+<div class="card control-card">
+    <div class="control-legend">
+        <span class="legend-item legend-active">Activo</span>
+        <span class="legend-item legend-missed">Pendiente</span>
+    </div>
+
+    <table class="control-table">
+        <thead>
+            <tr>
+                <th>Alumno</th>
+                {% for mes in meses %}
+                <th>{{ mes }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for fila in tabla %}
+            <tr>
+                <td>{{ fila.nombre }}</td>
+                {% for mes in meses %}
+                <td>
+                    {% if fila.pagos[mes] %}
+                    <span class="status-badge status-active">Activo</span>
+                    {% else %}
+                    <span class="status-badge status-missed">Pendiente</span>
+                    {% endif %}
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+
+</body>
+</html>

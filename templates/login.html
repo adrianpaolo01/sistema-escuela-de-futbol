@@ -1,0 +1,21 @@
+{% extends 'auth_base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<h1>Login</h1>
+
+<form method="POST">
+    <input type="text" name="username" placeholder="Usuario" required>
+    <input type="password" name="password" placeholder="Contraseña" required>
+    <button class="btn">Ingresar</button>
+
+    {% if error %}
+    <p class="error-message">{{ error }}</p>
+    {% endif %}
+</form>
+
+<p class="auth-link">¿No tienes cuenta? <a href="{{ url_for('auth.registro') }}">Regístrate</a></p>
+
+{% endblock %}

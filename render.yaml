@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: sistema-futbol-club
+    runtime: python
+    buildCommand: pip install -r requirements.txt && bash build.sh
+    startCommand: gunicorn wsgi:app
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: futbol-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+
+databases:
+  - name: futbol-db
+    plan: free
+    databaseName: futbol

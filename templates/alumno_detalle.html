@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Detalle del alumno</h1>
+
+<div class="card alumno-detalle-card">
+    <div class="detalle-row">
+        <strong>Nombre:</strong>
+        <span>{{ alumno.nombre }}</span>
+    </div>
+    <div class="detalle-row">
+        <strong>Edad:</strong>
+        <span>{{ alumno.edad }}</span>
+    </div>
+    <div class="detalle-row">
+        <strong>Teléfono:</strong>
+        <span>{{ alumno.telefono }}</span>
+    </div>
+    <div class="detalle-row">
+        <strong>Fecha de inscripción:</strong>
+        <span>{{ alumno.fecha_inscripcion.strftime('%d/%m/%Y') if alumno.fecha_inscripcion else 'Sin fecha' }}</span>
+    </div>
+    <div class="detalle-row">
+        <strong>Vence la mensualidad:</strong>
+        <span>{{ fecha_vencimiento }}</span>
+    </div>
+    <div class="detalle-row">
+        <strong>Días restantes:</strong>
+        <span>{{ dias_restantes if dias_restantes is not none else 'Sin fecha' }}</span>
+    </div>
+    <div class="detalle-row">
+        <strong>Estado de vigencia:</strong>
+        <span>{{ estado_vigencia }}</span>
+    </div>
+    <div class="detalle-row">
+        <strong>Estado actual:</strong>
+        {% if activo %}
+        <span class="status-badge status-active">Activo</span>
+        {% else %}
+        <span class="status-badge status-missed">Pendiente</span>
+        {% endif %}
+    </div>
+
+    <div class="detalle-meses">
+        <h2>Meses pagados</h2>
+        {% if meses_pagados %}
+        <ul class="meses-list">
+            {% for mes in meses_pagados %}
+            <li>{{ mes }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>No hay pagos registrados.</p>
+        {% endif %}
+    </div>
+
+    <a href="{{ url_for('alumnos.alumnos') }}" class="btn">Volver a la lista de alumnos</a>
+</div>
+
+{% endblock %}

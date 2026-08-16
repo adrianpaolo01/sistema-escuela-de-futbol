@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Información padres de alumnos</h1>
+
+<div class="card">
+    <table>
+        <tr>
+            <th>Alumno</th>
+            <th>Padre/Tutor</th>
+            <th>Teléfono</th>
+        </tr>
+
+        {% for alumno in alumnos %}
+        <tr>
+            <td>{{ alumno.nombre }}</td>
+            <td>{{ alumno.nombre_padre or 'Sin registrar' }}</td>
+            <td>{{ alumno.telefono_padre or 'Sin registrar' }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}

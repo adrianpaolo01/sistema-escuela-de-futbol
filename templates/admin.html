@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Administrar Usuarios</h1>
+
+<div class="card">
+    <table style="width:100%; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th style="text-align:left; padding:10px">ID</th>
+                <th style="text-align:left; padding:10px">Usuario</th>
+                <th style="text-align:center; padding:10px">Rol</th>
+                <th style="text-align:center; padding:10px">Estado</th>
+                <th style="text-align:center; padding:10px">Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in usuarios %}
+            <tr style="border-top:1px solid #eee">
+                <td style="padding:10px">{{ u.id }}</td>
+                <td style="padding:10px">{{ u.username }}</td>
+                <td style="padding:10px; text-align:center">
+                    {% if u.is_admin %}
+                        <span class="status-badge" style="background:#80F300; color:#000">Admin</span>
+                    {% else %}
+                        <span class="status-badge" style="background:#e0e0e0; color:#333">Usuario</span>
+                    {% endif %}
+                </td>
+                <td style="padding:10px; text-align:center">
+                    {% if u.blocked %}
+                        <span class="status-badge status-missed">Bloqueado</span>
+                    {% else %}
+                        <span class="status-badge status-active">Activo</span>
+                    {% endif %}
+                </td>
+                <td style="padding:10px; text-align:center">
+                    {% if u.id != session.user_id %}
+                        {% if u.blocked %}
+                        <form action="{{ url_for('admin.desbloquear', id=u.id) }}" method="POST" style="display:inline">
+                            <button type="submit" class="btn" style="background:#4E9E00; color:#fff; padding:5px 12px; font-size:13px">Desbloquear</button>
+                        </form>
+                        {% else %}
+                        <form action="{{ url_for('admin.bloquear', id=u.id) }}" method="POST" style="display:inline">
+                            <button type="submit" class="btn" style="background:#d32f2f; color:#fff; padding:5px 12px; font-size:13px">Bloquear</button>
+                        </form>
+                        {% endif %}
+                    {% else %}
+                        <span style="color:#999; font-size:13px">Tú</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

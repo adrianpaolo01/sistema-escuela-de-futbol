@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alumnos</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    {% extends 'base.html' %}
+    
+    {% block content %}
+
+<!-- Título -->
+<h1>Lista de alumnos</h1>
+
+<!-- Botón -->
+<a href="/nuevo" class="btn">+ Nuevo alumno</a>
+
+<!-- Card -->
+<div class="card">
+
+    <table>
+
+        <!-- Cabecera -->
+        <tr>
+            <th>Nombre</th>
+            <th>Edad</th>
+            <th>Teléfono</th>
+            <th>Categoría</th>
+            <th>Plan</th>
+            <th>Inscripción</th>
+            <th>Vence</th>
+            <th>Restan</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+
+        <!-- Recorremos alumnos -->
+        {% for alumno in alumnos %}
+        <tr>
+
+            <!-- Datos -->
+            <td>{{ alumno.nombre }}</td>
+            <td>{{ alumno.edad }}</td>
+            <td>{{ alumno.telefono }}</td>
+            <td>{{ alumno.categoria or 'Sin categoría' }}</td>
+            <td>
+                {% if alumno.plan == 'especial' %}
+                    Especial · {{ alumno.monto_inscripcion }} bs
+                {% elif alumno.plan == 'normal' %}
+                    Normal · 180 bs
+                {% else %}
+                    {{ alumno.plan or 'Sin plan' }}
+                {% endif %}
+            </td>
+
+            <td>{{ alumno.fecha_inscripcion or 'Sin fecha' }}</td>
+            <td>{{ alumno.fecha_vencimiento or 'Sin fecha' }}</td>
+            <td>
+                {% if alumno.dias_restantes is not none %}
+                    {% if alumno.dias_restantes < 0 %}
+                        <span class="inactivo">Vencida</span>
+                    {% elif alumno.dias_restantes <= 7 %}
+                        <span class="inactivo">{{ alumno.dias_restantes }} días</span>
+                    {% else %}
+                        <span class="activo">{{ alumno.dias_restantes }} días</span>
+                    {% endif %}
+                {% else %}
+                    Sin fecha
+                {% endif %}
+            </td>
+
+            <!-- Estado dinámico -->
+            <td>
+                {% if alumno.estado == "Activo" %}
+                    <span class="activo">Activo</span>
+                {% else %}
+                    <span class="inactivo">Inactivo</span>
+                {% endif %}
+            </td>
+           <td>
+            <a href="/editar_alumno/{{ alumno.id }}" class="btn">
+                Editar
+            </a>
+        </td>
+            <td>
+               <form action="/eliminar_alumno/{{ alumno.id }}" method="POST" style="display:inline;">
+                <button type="submit" class="btn-eliminar" onclick="return confirm('¿Eliminar este alumno?')">
+                     Eliminar
+                </button>
+            </form>
+            </td>
+            
+
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</div>
+
+{% endblock %}
+
+</div>
+
+</body>
+</html>

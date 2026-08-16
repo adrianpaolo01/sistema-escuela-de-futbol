@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Login{% endblock %}</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="auth-layout">
+        <div class="auth-card">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+</body>
+</html>
