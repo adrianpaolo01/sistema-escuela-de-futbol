@@ -91,20 +91,3 @@ def control_cuentas_export_csv():
 def informacion_padres():
     alumnos = Alumno.query.order_by(Alumno.id.desc()).all()
     return render_template('informacion_padres.html', alumnos=alumnos)
-
-
-@control_bp.route('/cron/generar_pagos_mes')
-@login_required
-def cron_generar_pagos_mes():
-    mes_actual = MESES_ES[datetime.now().month]
-    alumnos = Alumno.query.all()
-    creados = 0
-    for a in alumnos:
-        existe = Pago.query.filter_by(alumno_id=a.id, mes=mes_actual).first()
-        if not existe:
-            monto = a.monto_inscripcion or 180
-            nuevo = Pago(alumno_id=a.id, mes=mes_actual, monto=monto)
-            db.session.add(nuevo)
-            creados += 1
-    db.session.commit()
-    return f"Pagos creados: {creados}", 200
