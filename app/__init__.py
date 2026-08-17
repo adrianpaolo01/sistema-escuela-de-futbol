@@ -59,3 +59,5 @@ def create_app():
                     conn.execute(text(f"ALTER TABLE usuario ADD COLUMN {col_name} {col_type}"))
 
     return app
+
+app = create_app()
