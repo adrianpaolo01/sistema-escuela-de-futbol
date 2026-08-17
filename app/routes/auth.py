@@ -6,6 +6,22 @@ from werkzeug.security import generate_password_hash, check_password_hash
 auth_bp = Blueprint('auth', __name__)
 
 
+@auth_bp.route('/seed')
+def seed():
+    admin = Usuario.query.filter_by(is_admin=True).first()
+    if admin:
+        return 'Ya existe un admin. Esta ruta solo funciona la primera vez.'
+    admin = Usuario(
+        username='admin',
+        password=generate_password_hash('admin123'),
+        is_admin=True,
+        blocked=False
+    )
+    db.session.add(admin)
+    db.session.commit()
+    return 'Admin creado. Usuario: admin | Contraseña: admin123. Ahora entra a /login y cambia tu contraseña desde el panel de administración.'
+
+
 @auth_bp.route('/registro', methods=['GET', 'POST'])
 def registro():
     if request.method == 'POST':
